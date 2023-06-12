@@ -40,5 +40,19 @@ Route::post('consulter_demandes', [DashboedController::class,'consulter_demandes
 
 Route::post('detail_demande', [DashboedController::class,'detail_demande']);
 
+Route::post('Engin', [DashboedController::class,'Engin']);
+
+Route::get('getAllDemandes', [DashboedController::class,'getAllDemandes']);
+
+Route::post('addDetailEnjin', [DashboedController::class,'addDetailEnjin']);
+
+Route::post('getDetailCritaires', [DashboedController::class,'getDetailCritaires']);
+
+Route::post('createControles', [DashboedController::class,'createControles']);
+
+Route::post('details_affectation', [DashboedController::class,'details_affectation']);
+
+Route::get('Historique_affectation', [DashboedController::class,'Historique_affectation']);
+
 
 });

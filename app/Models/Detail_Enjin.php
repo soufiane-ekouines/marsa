@@ -14,5 +14,18 @@ class Detail_Enjin extends Model
         'demande_id',
         'date_sortie',
         'date_entrer',
+        'user_id'
     ];
+
+    function demande()  {
+        return $this->belongsTo(demande::class);
+    }
+
+    function enjin()  {
+        return $this->belongsTo(Enjin::class);
+    }
+
+    function Conducteur()  {
+        return $this->belongsTo(user_id::class);
+    }
 }

@@ -18,4 +18,8 @@ class Enjin extends Model
         'Commentaire',
         'famille_enjin_id',
     ];
+
+    function famille_enjin()  {
+        return $this->belongsTo(famille_enjin::class);
+    }
 }

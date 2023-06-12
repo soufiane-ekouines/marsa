@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('demande_id')->constrained();
             $table->date('date_sortie');
             $table->date('date_entrer');
+            $table->foreignId('user_id')->constrained();
+
             $table->timestamps();
         });
     }

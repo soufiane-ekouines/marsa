@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Controle;
 use App\Models\Demande;
+use App\Models\Detail_Critaire;
 use App\Models\Detail_Demande;
 use App\Models\Detail_Enjin;
 use App\Models\Enjin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class DashboedController extends Controller
 {
@@ -110,9 +113,109 @@ class DashboedController extends Controller
         return response()->json(['demandes' => $demandes]);
     }
 
-    function detail_demande(Request $request)  {
-        $detailDemande = detail_demande::with('demande', 'familleEnjin', 'detailEnjin')->where('demande_id',$request->demande_id)->first();
+    function detail_demande(Request $request)
+    {
+        $detailDemande = detail_demande::with('demande', 'familleEnjin', 'detailEnjin')->where('demande_id', $request->demande_id)->first();
 
         return response()->json(['detail_demande' => $detailDemande]);
+    }
+
+    function Engin(Request $request)
+    {
+
+        $Engin = Enjin::with('famille_enjin')->where('id', $request->id)->first();
+
+        $demande = Detail_Enjin::where('enjin_id', $Engin->id)->orderby('created_at')->first()?->demande;
+        return response()->json(['Engin' => $Engin, 'demande' => $demande]);
+    }
+
+
+    public function getAllDemandes()
+    {
+        $demandes = Demande::all();
+
+        return response()->json(['demandes' => $demandes]);
+    }
+
+    public function addDetailEnjin(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'demande_id' => 'required',
+            'famille_enjin_id' => 'required',
+            'date_sortie' => 'required|date',
+            'date_entrer' => 'required|date',
+            'conduteur_id' => 'required|date'
+
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+
+        $detailEnjin = new Detail_Enjin();
+        $detailEnjin->demande_id = $request->demande_id;
+        $detailEnjin->enjin_id = $request->famille_enjin_id;
+        $detailEnjin->date_sortie = $request->date_sortie;
+        $detailEnjin->date_entrer = $request->date_entrer;
+        $detailEnjin->user_id = $request->conduteur_id;
+
+        $detailEnjin->save();
+
+        return response()->json(['message' => 'Detail enjin added successfully', 'detail_enjin' => $detailEnjin]);
+    }
+
+
+
+    public function getDetailCritaires(Request $request)
+    {
+        $detailCritaires = Detail_Critaire::with("critaire")->where('famille_enjin_id', $request->id_famille)->get();
+
+
+
+        return response()->json(['detail_critaires' => $detailCritaires]);
+    }
+
+    public function createControles(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'controls' => 'required|array',
+            'controls.*.id_detail_critire' => 'required|exists:detail_critaires,id',
+            'controls.*.id_detail_enjin' => 'required|exists:detail_enjins,id',
+            'controls.*.confirmation' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        $controlsData = $request->input('controls');
+
+        $controls = [];
+        foreach ($controlsData as $controlData) {
+            $control = new Controle();
+            $control->id_detail_critire = $controlData['id_detail_critire'];
+            $control->id_detail_enjin = $controlData['id_detail_enjin'];
+            $control->confirmation = $controlData['confirmation'];
+            $control->save();
+
+            $controls[] = $control;
+        }
+
+        return response()->json(['message' => 'Controls stored successfully', 'controls' => $controls]);
+    }
+
+    function details_affectation(Request $request) {
+        $detailDemande = detail_demande::with('demande', 'familleEnjin', 'detailEnjin')->where('demande_id', $request->demande_id)->first();
+        $Conducteur=$detailDemande?->detailEnjin?->Conducteur;
+        return response()->json(['detail_demande' => $detailDemande,'Conducteur' => $Conducteur]);
+    }
+
+
+    function Historique_affectation() {
+        $detailDemande = detail_demande::with('demande', 'familleEnjin', 'detailEnjin')->get();
+        $Conducteur=$detailDemande?->detailEnjin?->Conducteur;
+        return response()->json(['detail_demande' => $detailDemande,'Conducteur' => $Conducteur]);
     }
 }
