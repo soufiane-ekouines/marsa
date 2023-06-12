@@ -31,7 +31,14 @@ Route::get('test', function () {
 });
 
 Route::get('dashboard', [DashboedController::class,'dashboard']);
+
 Route::post('list_engin', [DashboedController::class,'list_engin']);
+
+Route::post('Ajouter_demande', [DashboedController::class,'Ajouter_demande']);
+
+Route::post('consulter_demandes', [DashboedController::class,'consulter_demandes']);
+
+Route::post('detail_demande', [DashboedController::class,'detail_demande']);
 
 
 });

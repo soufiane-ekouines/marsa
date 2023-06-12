@@ -10,7 +10,7 @@ class Detail_Enjin extends Model
     use HasFactory;
     protected $table = 'Detail_Enjins';
     protected $fillable = [
-        'famille_enjin_id',
+        'enjin_id',
         'demande_id',
         'date_sortie',
         'date_entrer',

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('demandes', function (Blueprint $table) {
             $table->id();
-            $table->date('date_embauche');
+            $table->date('date_demande');
             $table->string('Shift');
-            $table->string('Sortie_preveue');
+            $table->date('Sortie_preveue');
             $table->foreignId('entite_id')->constrained();;
             $table->foreignId('user_id')->constrained();;
             $table->string('Commentaire');

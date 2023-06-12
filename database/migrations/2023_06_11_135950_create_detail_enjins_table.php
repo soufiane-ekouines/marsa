@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('detail_enjins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('famille_enjin_id')->constrained();;
+            $table->foreignId('enjin_id')->constrained();;
             $table->foreignId('demande_id')->constrained();
             $table->date('date_sortie');
             $table->date('date_entrer');

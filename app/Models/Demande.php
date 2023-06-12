@@ -9,7 +9,7 @@ class Demande extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'date_embauche',
+        'date_demande',
         'Shift',
         'Sortie_preveue',
         'entite_id',
@@ -20,5 +20,15 @@ class Demande extends Model
 
     function user() {
         return $this->belongsTo(user::class);
+    }
+
+    public function entite()
+    {
+        return $this->belongsTo(Entite::class);
+    }
+
+    public function detailDemande()
+    {
+        return $this->hasOne(Detail_Demande::class);
     }
 }

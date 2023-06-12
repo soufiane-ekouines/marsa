@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('famille_enjin_id')->constrained();;
             $table->foreignId('demande_id')->constrained();
             $table->string('Description');
+            $table->integer('qte');
             $table->timestamps();
         });
     }
