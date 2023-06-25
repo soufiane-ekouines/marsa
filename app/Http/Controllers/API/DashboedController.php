@@ -36,13 +36,13 @@ class DashboedController extends Controller
     function list_engin(Request $request)
     {
         if ($request->Etat == "" && $request->famille_id == "") {
-            $engin = Enjin::where('Nom_enjin', 'like', '' . $request->Nom . '%')->get();
+            $engin = Enjin::with("famille_enjin")->where('Nom_enjin', 'like', '' . $request->Nom . '%')->get();
         } else if ($request->Etat == "" && $request->famille_id != "") {
-            $engin = Enjin::where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('famille_enjin_id', $request->famille_id)->get();
+            $engin = Enjin::with("famille_enjin")->where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('famille_enjin_id', $request->famille_id)->get();
         } else if ($request->famille_id != "" && $request->Etat != "") {
-            $engin = Enjin::where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('Etat', $request->Etat)->get();
+            $engin = Enjin::with("famille_enjin")->where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('Etat', $request->Etat)->get();
         } else {
-            $engin = Enjin::where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('Etat', $request->Etat)->where('famille_enjin_id', $request->famille_id)->get();
+            $engin = Enjin::with("famille_enjin")->where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('Etat', $request->Etat)->where('famille_enjin_id', $request->famille_id)->get();
         }
         return response()->json(['engin' => $engin]);
     }
