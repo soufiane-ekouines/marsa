@@ -9,6 +9,7 @@ use App\Models\Detail_Critaire;
 use App\Models\Detail_Demande;
 use App\Models\Detail_Enjin;
 use App\Models\Enjin;
+use App\Models\Famille_Enjin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -35,16 +36,19 @@ class DashboedController extends Controller
 
     function list_engin(Request $request)
     {
-        if ($request->Etat == "" && $request->famille_id == "") {
+        if ($request->etat == "" && $request->famille == "") {
             $engin = Enjin::with("famille_enjin")->where('Nom_enjin', 'like', '' . $request->Nom . '%')->get();
-        } else if ($request->Etat == "" && $request->famille_id != "") {
-            $engin = Enjin::with("famille_enjin")->where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('famille_enjin_id', $request->famille_id)->get();
-        } else if ($request->famille_id != "" && $request->Etat != "") {
-            $engin = Enjin::with("famille_enjin")->where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('Etat', $request->Etat)->get();
+        } else if ($request->etat == "" && $request->famille != "") {
+            $engin = Enjin::with("famille_enjin")->where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('famille_enjin_id', $request->famille)->get();
+        } else if ($request->famille != "" && $request->etat != "") {
+            $engin = Enjin::with("famille_enjin")->where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('Etat', $request->etat)->get();
         } else {
-            $engin = Enjin::with("famille_enjin")->where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('Etat', $request->Etat)->where('famille_enjin_id', $request->famille_id)->get();
+            $engin = Enjin::with("famille_enjin")->where('Nom_enjin', 'like', '' . $request->Nom . '%')->where('Etat', $request->etat)->where('famille_enjin_id', $request->famille)->get();
         }
-        return response()->json(['engin' => $engin]);
+
+        $etat = Enjin::get('Etat');
+        $famille = Famille_Enjin::get();
+        return response()->json(['engin' => $engin,'Etat'=>$etat, 'famille'=> $famille]);
     }
 
     function Ajouter_demande(Request $request)
