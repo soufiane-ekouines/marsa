@@ -25,12 +25,12 @@ class DashboedController extends Controller
         $lastDemandes = Demande::with('user')->take(5)->get();
         $Engin = Detail_Enjin::take(5)->get();
         return response()->json([
-            'count demandes' => $CntDemandes,
+            'count_demandes' => $CntDemandes,
             'incompletes' => $incompletes,
             'cloturees' => $cloturees,
             'pesrantes' => $pesrantes,
-            'last demandes' => $lastDemandes,
-            'detail enjin' => $Engin
+            'last_demandes' => $lastDemandes,
+            'detail_enjin' => $Engin
         ]);
     }
 
@@ -84,10 +84,10 @@ class DashboedController extends Controller
     function consulter_demandes(Request $request)
     {
 
-        $id = $request->input('id');
+        $id = $request->input('demande_id');
         $commentaire = $request->input('commentaire');
         $entite = $request->input('entite');
-        $date_demande = $request->input('date_demande');
+        $date_demande = $request->input('date_entrer');
         $shift = $request->input('shift');
         $sortie_prevue = $request->input('sortie_prevue');
 
@@ -112,7 +112,7 @@ class DashboedController extends Controller
             ->when($sortie_prevue, function ($query) use ($sortie_prevue) {
                 $query->where('Sortie_preveue', $sortie_prevue);
             })
-            ->get();
+            ->with('detailDemande.familleEnjin')->get();
 
         return response()->json(['demandes' => $demandes]);
     }

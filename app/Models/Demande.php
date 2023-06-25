@@ -29,6 +29,6 @@ class Demande extends Model
 
     public function detailDemande()
     {
-        return $this->hasOne(Detail_Demande::class);
+        return $this->hasOne(Detail_Demande::class,'demande_id');
     }
 }
