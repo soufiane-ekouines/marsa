@@ -38,6 +38,9 @@ Route::get('dashboard', [DashboedController::class,'dashboard']);
 
 Route::post('list_engin', [DashboedController::class,'list_engin']);
 
+Route::get('famille_engin', [DashboedController::class,'famille_engin']);
+
+
 Route::post('Ajouter_demande', [DashboedController::class,'Ajouter_demande']);
 
 Route::post('consulter_demandes', [DashboedController::class,'consulter_demandes']);

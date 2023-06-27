@@ -222,4 +222,10 @@ class DashboedController extends Controller
         $Conducteur=$detailDemande?->detailEnjin?->Conducteur;
         return response()->json(['detail_demande' => $detailDemande,'Conducteur' => $Conducteur]);
     }
+
+    function famille_engin() {
+        $famille_enjin = Famille_Enjin::get();
+        return response()->json(['Famille_Enjin' => $famille_enjin]);
+
+    }
 }
