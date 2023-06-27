@@ -218,9 +218,10 @@ class DashboedController extends Controller
 
 
     function Historique_affectation() {
-        $detailDemande = detail_demande::with('demande', 'familleEnjin', 'detailEnjin')->get();
-        $Conducteur=$detailDemande?->detailEnjin?->Conducteur;
-        return response()->json(['detail_demande' => $detailDemande,'Conducteur' => $Conducteur]);
+        $detailDemande = detail_demande::with('demande.user', 'familleEnjin', 'detailEnjin')->get();
+        if(empty($detailDemande->detailEnjin))
+        // $Conducteur=$detailDemande?->detailEnjin?->Conducteur;
+        return response()->json(['detail_demande' => $detailDemande]);
     }
 
     function famille_engin() {
