@@ -57,7 +57,7 @@ class DashboedController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validate([
-            'date_demande' => 'required|date',
+            'date_demande' => 'date',
             'Shift' => 'required|string',
             'Sortie_preveue' => 'required|string',
             'entite_id' => 'required|exists:entites,id',
@@ -65,7 +65,7 @@ class DashboedController extends Controller
             'Commentaire' => 'nullable|string',
             'details' => 'required|array',
         ]);
-
+        $validatedData['date_demande']=today();
         // Create the demande
         $demande = Demande::create($validatedData);
 
