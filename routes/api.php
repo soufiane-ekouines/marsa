@@ -40,6 +40,10 @@ Route::post('list_engin', [DashboedController::class,'list_engin']);
 
 Route::get('famille_engin', [DashboedController::class,'famille_engin']);
 
+Route::get('users', [DashboedController::class,'users']);
+Route::get('entites', [DashboedController::class,'entites']);
+
+
 
 Route::post('Ajouter_demande', [DashboedController::class,'Ajouter_demande']);
 

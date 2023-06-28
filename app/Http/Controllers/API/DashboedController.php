@@ -9,7 +9,9 @@ use App\Models\Detail_Critaire;
 use App\Models\Detail_Demande;
 use App\Models\Detail_Enjin;
 use App\Models\Enjin;
+use App\Models\Entite;
 use App\Models\Famille_Enjin;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -228,5 +230,21 @@ class DashboedController extends Controller
         $famille_enjin = Famille_Enjin::get();
         return response()->json(['Famille_Enjin' => $famille_enjin]);
 
+    }
+
+    
+    public function users()
+    {
+        $User = User::all();
+
+        return response()->json(['user' => $User]);
+    }
+
+    
+    public function entites()
+    {
+        $Entite = Entite::all();
+
+        return response()->json(['entite' => $Entite]);
     }
 }
