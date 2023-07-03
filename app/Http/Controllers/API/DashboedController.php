@@ -247,4 +247,21 @@ class DashboedController extends Controller
 
         return response()->json(['entite' => $Entite]);
     }
+
+    function delete_demande(Request $request) {
+        Demande::where('id',$request->id)->delete();
+        return response()->json(['message' => "deleted"]);
+
+    }
+
+    
+    function delete_dettail_demande(Request $request) {
+        detail_demande::where('id',$request->id)->delete();
+        return response()->json(['message' => "deleted"]);
+    }
+    
+    function delete_dettail_engin(Request $request) {
+        Detail_Enjin::where('id',$request->id)->delete();
+        return response()->json(['message' => "deleted"]);
+    }
 }
