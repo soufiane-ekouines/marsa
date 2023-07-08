@@ -44,9 +44,9 @@ Route::get('users', [DashboedController::class,'users']);
 Route::get('entites', [DashboedController::class,'entites']);
 
 
-Route::post('/demande', [DashboedController::class, 'delete_demande']);
-Route::post('/detail_demande', [DashboedController::class, 'delete_dettail_demande']);
-Route::post('/detail_engin', [DashboedController::class, 'delete_dettail_engin']);
+Route::post('/delete_demande', [DashboedController::class, 'delete_demande']);
+Route::post('/delete_detail_demande', [DashboedController::class, 'delete_dettail_demande']);
+Route::post('/delete_detail_engin', [DashboedController::class, 'delete_dettail_engin']);
 
 
 Route::post('Ajouter_demande', [DashboedController::class,'Ajouter_demande']);
