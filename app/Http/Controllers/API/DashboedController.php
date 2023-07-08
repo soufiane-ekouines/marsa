@@ -131,7 +131,7 @@ class DashboedController extends Controller
 
         $Engin = Enjin::with('famille_enjin')->where('id', $request->id)->first();
 
-        $demande = Detail_Enjin::where('enjin_id', $Engin->id)->with("enjin.famille_enjin,Conducteur")->orderby('created_at')->first()?->demande;
+        $demande = Detail_Enjin::where('enjin_id', $Engin->id)->with("enjin.famille_enjin","demande","Conducteur")->orderby('created_at')->first()?->demande;
         return response()->json(['Engin' => $Engin, 'demande' => $demande]);
     }
 
