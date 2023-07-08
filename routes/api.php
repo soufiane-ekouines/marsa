@@ -67,6 +67,9 @@ Route::post('createControles', [DashboedController::class,'createControles']);
 
 Route::post('details_affectation', [DashboedController::class,'details_affectation']);
 
+Route::post('affectation', [DashboedController::class,'affectation']);
+
+
 Route::get('Historique_affectation', [DashboedController::class,'Historique_affectation']);
 
 

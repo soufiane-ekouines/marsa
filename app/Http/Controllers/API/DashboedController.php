@@ -264,4 +264,10 @@ class DashboedController extends Controller
         Detail_Enjin::where('id',$request->id)->delete();
         return response()->json(['message' => "deleted"]);
     }
+
+    function affectation(Request $request) {
+        $detailDemande = detail_demande::where('id', $request->id)->update(['effect'=>true]);
+
+        return response()->json(['affectation' => $detailDemande]);
+    }
 }

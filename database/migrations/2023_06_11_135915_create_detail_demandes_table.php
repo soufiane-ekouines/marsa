@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('demande_id')->constrained();
             $table->string('Description');
             $table->integer('qte');
+            $table->boolean('effect')->default(false);
             $table->timestamps();
         });
     }
