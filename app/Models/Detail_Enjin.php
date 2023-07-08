@@ -18,7 +18,7 @@ class Detail_Enjin extends Model
     ];
 
     function demande()  {
-        return $this->belongsTo(demande::class);
+        return $this->belongsTo(demande::class,"demande_id");
     }
 
     function enjin()  {
