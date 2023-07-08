@@ -220,10 +220,16 @@ class DashboedController extends Controller
 
 
     function Historique_affectation() {
-        $detailDemande = detail_demande::with('demande.user', 'familleEnjin', 'detailEnjin')->get();
-        if(empty($detailDemande->detailEnjin))
+
+
+        // $detailDemande = detail_demande::with('demande.user', 'familleEnjin', 'detailEnjin.enjin')->get();
+
+        $detailengin = Detail_Enjin::with('demande.user', 'enjin', 'Conducteur')->get();
+
+        
+        // if(empty($detailDemande->detailEnjin))
         // $Conducteur=$detailDemande?->detailEnjin?->Conducteur;
-        return response()->json(['detail_demande' => $detailDemande]);
+        return response()->json(['detail_demande' => $detailengin]);
     }
 
     function famille_engin() {
@@ -244,7 +250,6 @@ class DashboedController extends Controller
     public function entites()
     {
         $Entite = Entite::all();
-
         return response()->json(['entite' => $Entite]);
     }
 
@@ -253,7 +258,6 @@ class DashboedController extends Controller
         return response()->json(['message' => "deleted"]);
 
     }
-
     
     function delete_dettail_demande(Request $request) {
         detail_demande::where('id',$request->id)->delete();
@@ -269,5 +273,14 @@ class DashboedController extends Controller
         $detailDemande = detail_demande::where('id', $request->id)->update(['effect'=>true]);
 
         return response()->json(['affectation' => $detailDemande]);
+    }
+
+    function search_affectation(Request $request) {
+
+        $engin_id = Enjin::where('Nom_enjin', $request->search)->pluck('id');
+        $dettail_engin_id = Detail_Enjin::whereIn("enjin_id",$engin_id)->pluck('demande_id');
+        $detailDemande = detail_demande::whereIn('demande_id', $dettail_engin_id)->get();
+
+        return response()->json(['affectation' =>  $detailDemande]);
     }
 }

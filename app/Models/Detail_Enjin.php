@@ -26,6 +26,6 @@ class Detail_Enjin extends Model
     }
 
     function Conducteur()  {
-        return $this->belongsTo(user_id::class);
+        return $this->belongsTo(User::class);
     }
 }

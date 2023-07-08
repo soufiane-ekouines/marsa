@@ -69,8 +69,12 @@ Route::post('details_affectation', [DashboedController::class,'details_affectati
 
 Route::post('affectation', [DashboedController::class,'affectation']);
 
+Route::post('search_affectation', [DashboedController::class,'search_affectation']);
+
 
 Route::get('Historique_affectation', [DashboedController::class,'Historique_affectation']);
+
+
 
 
 });
