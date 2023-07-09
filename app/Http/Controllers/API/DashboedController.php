@@ -150,28 +150,36 @@ class DashboedController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'demande_id' => 'nulable',
-            'famille_enjin_id' => 'nulable',
+            'famille_enjin_id' => '*',
             'date_sortie' => 'date',
             'date_entrer' => 'date',
             'conduteur_id' => 'date'
 
         ]);
 
+
+
+
+
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
 
 
-        $detailEnjin = new Detail_Enjin();
-        $detailEnjin->demande_id = $request->demande_id;
-        $detailEnjin->enjin_id = $request->famille_enjin_id;
-        $detailEnjin->date_sortie = $request->date_sortie;
-        $detailEnjin->date_entrer = $request->date_entrer;
-        $detailEnjin->user_id = $request->conduteur_id;
 
-        $detailEnjin->save();
+        foreach ($request->famille_enjin_id as  $value) {
 
-        return response()->json(['message' => 'Detail enjin added successfully', 'detail_enjin' => $detailEnjin]);
+            $detailEnjin = new Detail_Enjin();
+            $detailEnjin->demande_id = $request->demande_id;
+            $detailEnjin->enjin_id = $value;
+            $detailEnjin->save();
+        }
+        //  $detailEnjin->date_sortie = $request->date_sortie;
+        //  $detailEnjin->date_entrer = $request->date_entrer;
+        //  $detailEnjin->user_id = $request->conduteur_id;
+
+
+        return response()->json(['message' => 'Detail enjin added successfully'], 201);
     }
 
 
