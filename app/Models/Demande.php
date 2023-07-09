@@ -34,6 +34,6 @@ class Demande extends Model
 
     public function detailDemande()
     {
-        return $this->hasMany(Detail_Demande::class,'demande_id');
+        return $this->hasOne(Detail_Demande::class,'demande_id');
     }
 }
