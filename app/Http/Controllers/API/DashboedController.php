@@ -121,7 +121,10 @@ class DashboedController extends Controller
 
     function detail_demande(Request $request)
     {
-        $detailDemande = detail_demande::with('demande.user', 'familleEnjin', 'detailEnjin')->where('demande_id', $request->demande_id)->first();
+        // $detailDemande = detail_demande::with('demande.user', 'familleEnjin', 'detailEnjin')->where('demande_id', $request->demande_id)->first();
+
+        $detailDemande = Demande::with('user', 'detailDemande.familleEnjin', 'detailDemande.detailEnjin')->where('id', $request->demande_id)->first();
+
 
         return response()->json(['detail_demande' => $detailDemande]);
     }
