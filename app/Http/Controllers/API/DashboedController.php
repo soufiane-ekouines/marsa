@@ -148,22 +148,22 @@ class DashboedController extends Controller
 
     public function addDetailEnjin(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'demande_id' => 'nulable',
-            'famille_enjin_id' => '*',
-            'date_sortie' => 'date',
-            'date_entrer' => 'date',
-            'conduteur_id' => 'date'
+        // $validator = Validator::make($request->all(), [
+        //     'demande_id' => 'nulable',
+        //     'famille_enjin_id' => '*',
+        //     'date_sortie' => 'date',
+        //     'date_entrer' => 'date',
+        //     'conduteur_id' => 'date'
 
-        ]);
-
-
+        // ]);
 
 
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
-        }
+
+
+        // if ($validator->fails()) {
+        //     return response()->json(['error' => $validator->errors()], 400);
+        // }
 
 
 
