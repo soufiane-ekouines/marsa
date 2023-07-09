@@ -24,7 +24,7 @@ class Demande extends Model
 
     public function entite()
     {
-        return $this->belongsTo(Entite::class);
+        return $this->belongsTo(Entite::class,'entite_id');
     }
 
     public function detailDemandes()

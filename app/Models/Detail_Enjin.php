@@ -28,4 +28,9 @@ class Detail_Enjin extends Model
     function Conducteur()  {
         return $this->belongsTo(User::class);
     }
+
+    function controle()  {
+        return $this->hasMany(controle::class,'detail_enjin_id');
+        
+    }
 }

@@ -114,7 +114,7 @@ class DashboedController extends Controller
             ->when($sortie_prevue, function ($query) use ($sortie_prevue) {
                 $query->where('Sortie_preveue', $sortie_prevue);
             })
-            ->with('detailDemande.familleEnjin')->get();
+            ->with('detailDemande.familleEnjin','entite')->get();
 
         return response()->json(['demandes' => $demandes]);
     }
@@ -123,7 +123,7 @@ class DashboedController extends Controller
     {
         // $detailDemande = detail_demande::with('demande.user', 'familleEnjin', 'detailEnjin')->where('demande_id', $request->demande_id)->first();
 
-        $detailDemande = Demande::with('user', 'detailDemandes.familleEnjin', 'detailDemandes.detailEnjin')->where('id', $request->demande_id)->first();
+        $detailDemande = Demande::with('user', 'detailDemandes.familleEnjin', 'detailDemandes.detailEnjin','entite')->where('id', $request->demande_id)->first();
 
 
         return response()->json(['demande' => $detailDemande]);
