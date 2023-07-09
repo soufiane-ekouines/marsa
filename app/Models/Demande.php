@@ -27,6 +27,11 @@ class Demande extends Model
         return $this->belongsTo(Entite::class);
     }
 
+    public function detailDemandes()
+    {
+        return $this->hasMany(Detail_Demande::class,'demande_id');
+    }
+
     public function detailDemande()
     {
         return $this->hasMany(Detail_Demande::class,'demande_id');
