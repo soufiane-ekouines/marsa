@@ -172,6 +172,8 @@ class DashboedController extends Controller
             $detailEnjin = new Detail_Enjin();
             $detailEnjin->demande_id = $request->demande_id;
             $detailEnjin->enjin_id = $value;
+            $detailEnjin->date_sortie = now();
+            $detailEnjin->date_entrer = now();
             $detailEnjin->save();
         }
         //  $detailEnjin->date_sortie = $request->date_sortie;
