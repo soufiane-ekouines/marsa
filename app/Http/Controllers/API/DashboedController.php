@@ -50,7 +50,7 @@ class DashboedController extends Controller
 
         $etat = Enjin::get('Etat');
         $famille = Famille_Enjin::get();
-        return response()->json(['engin' => $engin,'Etat'=>$etat, 'famille'=> $famille]);
+        return response()->json(['engin' => $engin, 'Etat' => $etat, 'famille' => $famille]);
     }
 
     function Ajouter_demande(Request $request)
@@ -65,7 +65,7 @@ class DashboedController extends Controller
             'Commentaire' => 'nullable|string',
             'details' => 'required|array',
         ]);
-        $validatedData['date_demande']=today();
+        $validatedData['date_demande'] = today();
         // Create the demande
         $demande = Demande::create($validatedData);
 
@@ -114,7 +114,7 @@ class DashboedController extends Controller
             ->when($sortie_prevue, function ($query) use ($sortie_prevue) {
                 $query->where('Sortie_preveue', $sortie_prevue);
             })
-            ->with('detailDemande.familleEnjin','entite')->get();
+            ->with('detailDemande.familleEnjin', 'entite')->get();
 
         return response()->json(['demandes' => $demandes]);
     }
@@ -123,7 +123,7 @@ class DashboedController extends Controller
     {
         // $detailDemande = detail_demande::with('demande.user', 'familleEnjin', 'detailEnjin')->where('demande_id', $request->demande_id)->first();
 
-        $detailDemande = Demande::with('user', 'detailDemandes.familleEnjin', 'detailDemandes.detailEnjin','entite')->where('id', $request->demande_id)->first();
+        $detailDemande = Demande::with('user', 'detailDemandes.familleEnjin', 'detailDemandes.detailEnjin', 'entite')->where('id', $request->demande_id)->first();
 
 
         return response()->json(['demande' => $detailDemande]);
@@ -134,7 +134,7 @@ class DashboedController extends Controller
 
         $Engin = Enjin::with('famille_enjin')->where('id', $request->id)->first();
 
-        $demande = Detail_Enjin::where('enjin_id', $Engin->id)->with("enjin.famille_enjin","demande","Conducteur")->orderby('created_at')->first()?->demande;
+        $demande = Detail_Enjin::where('enjin_id', $Engin->id)->with("enjin.famille_enjin", "demande", "Conducteur")->orderby('created_at')->first()?->demande;
         return response()->json(['Engin' => $Engin, 'demande' => $demande]);
     }
 
@@ -149,11 +149,11 @@ class DashboedController extends Controller
     public function addDetailEnjin(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'demande_id' => 'required',
-            'famille_enjin_id' => 'required',
-            'date_sortie' => 'required|date',
-            'date_entrer' => 'required|date',
-            'conduteur_id' => 'required|date'
+            'demande_id' => 'nulable',
+            'famille_enjin_id' => 'nulable',
+            'date_sortie' => 'date',
+            'date_entrer' => 'date',
+            'conduteur_id' => 'date'
 
         ]);
 
@@ -215,33 +215,35 @@ class DashboedController extends Controller
         return response()->json(['message' => 'Controls stored successfully', 'controls' => $controls]);
     }
 
-    function details_affectation(Request $request) {
+    function details_affectation(Request $request)
+    {
         $detailDemande = detail_demande::with('demande', 'familleEnjin', 'detailEnjin')->where('demande_id', $request->demande_id)->first();
-        $Conducteur=$detailDemande?->detailEnjin?->Conducteur;
-        return response()->json(['detail_demande' => $detailDemande,'Conducteur' => $Conducteur]);
+        $Conducteur = $detailDemande?->detailEnjin?->Conducteur;
+        return response()->json(['detail_demande' => $detailDemande, 'Conducteur' => $Conducteur]);
     }
 
 
-    function Historique_affectation() {
+    function Historique_affectation()
+    {
 
 
         // $detailDemande = detail_demande::with('demande.user', 'familleEnjin', 'detailEnjin.enjin')->get();
 
         $detailengin = Detail_Enjin::with('demande.user', 'enjin', 'Conducteur')->get();
 
-        
+
         // if(empty($detailDemande->detailEnjin))
         // $Conducteur=$detailDemande?->detailEnjin?->Conducteur;
         return response()->json(['detail_demande' => $detailengin]);
     }
 
-    function famille_engin() {
+    function famille_engin()
+    {
         $famille_enjin = Famille_Enjin::get();
         return response()->json(['Famille_Enjin' => $famille_enjin]);
-
     }
 
-    
+
     public function users()
     {
         $User = User::all();
@@ -249,39 +251,43 @@ class DashboedController extends Controller
         return response()->json(['user' => $User]);
     }
 
-    
+
     public function entites()
     {
         $Entite = Entite::all();
         return response()->json(['entite' => $Entite]);
     }
 
-    function delete_demande(Request $request) {
-        Demande::where('id',$request->id)->delete();
-        return response()->json(['message' => "deleted"]);
-
-    }
-    
-    function delete_dettail_demande(Request $request) {
-        detail_demande::where('id',$request->id)->delete();
-        return response()->json(['message' => "deleted"]);
-    }
-    
-    function delete_dettail_engin(Request $request) {
-        Detail_Enjin::where('id',$request->id)->delete();
+    function delete_demande(Request $request)
+    {
+        Demande::where('id', $request->id)->delete();
         return response()->json(['message' => "deleted"]);
     }
 
-    function affectation(Request $request) {
-        $detailDemande = detail_demande::where('id', $request->id)->update(['effect'=>true]);
+    function delete_dettail_demande(Request $request)
+    {
+        detail_demande::where('id', $request->id)->delete();
+        return response()->json(['message' => "deleted"]);
+    }
+
+    function delete_dettail_engin(Request $request)
+    {
+        Detail_Enjin::where('id', $request->id)->delete();
+        return response()->json(['message' => "deleted"]);
+    }
+
+    function affectation(Request $request)
+    {
+        $detailDemande = detail_demande::where('id', $request->id)->update(['effect' => true]);
 
         return response()->json(['affectation' => $detailDemande]);
     }
 
-    function search_affectation(Request $request) {
+    function search_affectation(Request $request)
+    {
 
         $engin_id = Enjin::where('Nom_enjin', $request->search)->pluck('id');
-        $dettail_engin_id = Detail_Enjin::whereIn("enjin_id",$engin_id)->pluck('demande_id');
+        $dettail_engin_id = Detail_Enjin::whereIn("enjin_id", $engin_id)->pluck('demande_id');
         $detailDemande = detail_demande::whereIn('demande_id', $dettail_engin_id)->get();
 
         return response()->json(['affectation' =>  $detailDemande]);
