@@ -4,13 +4,16 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Controle;
+use App\Models\Critaire;
 use App\Models\Demande;
 use App\Models\Detail_Critaire;
 use App\Models\Detail_Demande;
 use App\Models\Detail_Enjin;
 use App\Models\Enjin;
 use App\Models\Entite;
+use App\Models\Entrer;
 use App\Models\Famille_Enjin;
+use App\Models\Sortie;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -189,36 +192,45 @@ class DashboedController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'controls' => 'required|array',
-            'controls.*.id_detail_critire' => 'required|exists:detail_critaires,id',
-            'controls.*.id_detail_enjin' => 'required|exists:detail_enjins,id',
-            'controls.*.confirmation' => 'required|boolean',
+            'Klaxon'=> 'boolean',
+            'Essuie_glase'=> 'boolean',
+            'Frein'=> 'boolean',
+            'Pneu'=> 'boolean',
+            'Pare_Brise'=> 'boolean',
+            "commentaireK" =>'string',
+            "commentairee" =>'string',
+            "commentairef" =>'string',
+            "commentairepn" =>'string',
+            "commentairepa" =>'string',
+            'detail_enjin_id'=> 'required'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $controlsData = $request->input('controls');
+        $critic = Critaire::create([
+            'Klaxon' => $request->input('Klaxon', false),
+            'Essuie_glase' => $request->input('Essuie_glase', false),
+            'Frein' => $request->input('Frein', false),
+            'Pneu' => $request->input('Pneu', false),
+            'Pare_Brise' => $request->input('Pare_Brise', false),
+            'commentaireK' => $request->input('commentaireK', ''),
+            'commentairee' => $request->input('commentairee', ''),
+            'commentairef' => $request->input('commentairef', ''),
+            'commentairepn' => $request->input('commentairepn', ''),
+            'commentairepa' => $request->input('commentairepa', ''),
+            'detail_enjin_id' => $request->input('detail_enjin_id')
+        ]);
+        
 
-        $controls = [];
-        foreach ($controlsData as $controlData) {
-            $control = new Controle();
-            $control->id_detail_critire = $controlData['id_detail_critire'];
-            $control->id_detail_enjin = $controlData['id_detail_enjin'];
-            $control->confirmation = $controlData['confirmation'];
-            $control->save();
-
-            $controls[] = $control;
-        }
-
-        return response()->json(['message' => 'Controls stored successfully', 'controls' => $controls]);
+        return response()->json(['message' => 'Controls stored successfully', 'controls' => $critic]);
     }
 
     function details_affectation(Request $request) {
-        $detailDemande = detail_demande::with('demande', 'familleEnjin', 'detailEnjin')->where('demande_id', $request->demande_id)->first();
-        $Conducteur=$detailDemande?->detailEnjin?->Conducteur;
-        return response()->json(['detail_demande' => $detailDemande,'Conducteur' => $Conducteur]);
+        $Detail_Enjin = Detail_Enjin::with('demande.entite', 'enjin.sortie','enjin.entrer', 'Conducteur','Critaire')->where('id', $request->id)->first();
+        
+        return response()->json(['details_affectation' => $Detail_Enjin]);
     }
 
 
@@ -285,5 +297,46 @@ class DashboedController extends Controller
         $detailDemande = detail_demande::whereIn('demande_id', $dettail_engin_id)->get();
 
         return response()->json(['affectation' =>  $detailDemande]);
+    }
+
+    function sortie(Request $request)  {
+
+            $validatedData = $request->validate([
+                'matricule' => 'required',
+                'societe' => 'required',
+                'nom' => 'required',
+                'prenom' => 'required',
+                'compteur' => 'required|integer',
+                'engin_id' => 'required',
+            ]);
+    
+            $Sortie = Sortie::create($validatedData);
+    
+            return response()->json([
+                'message' => 'Sortie created successfully',
+                'Sortie' => $Sortie
+            ], 201);
+         
+    }
+
+    function entrer(Request $request)  {
+        $validatedData = $request->validate([
+            'matricle' => 'required',
+            'societe' => 'required',
+            'nom' => 'required',
+            'prenom' => 'required',
+            'compteur' => 'required|integer',
+            'observation' => 'nullable',
+            'engin_id' => 'required',
+            'Critaire_id' => 'nullable|integer'
+        ]);
+
+        $entrer = Entrer::create($validatedData);
+
+        return response()->json([
+            'message' => 'Entrer created successfully',
+            'entrer' => $entrer
+        ], 201);
+    
     }
 }

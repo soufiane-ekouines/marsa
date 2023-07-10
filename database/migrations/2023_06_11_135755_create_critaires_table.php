@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('critaires', function (Blueprint $table) {
             $table->id();
-            $table->string('Klaxon');
-            $table->string('Essuie_glase');
-            $table->string('Frein');
-            $table->string('Pneu');
-            $table->string('Pare_Brise');
+            $table->boolean('Klaxon')->default(true);
+            $table->boolean('Essuie_glase')->default(true);
+            $table->boolean('Frein')->default(true);
+            $table->boolean('Pneu')->default(true);
+            $table->boolean('Pare_Brise')->default(true);
+            $table->foreignId('detail_enjin_id')->constrained();
             $table->timestamps();
         });
     }

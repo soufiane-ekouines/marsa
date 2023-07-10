@@ -15,5 +15,14 @@ class Critaire extends Model
         'Frein',
         'Pneu',
         'Pare_Brise',
+        'detail_enjin_id',
+        'commentaireK',
+        'commentairee',
+        'commentairef',
+        'commentairepn',
+        'commentairepa',
     ];
+    function dettail_engin()  {
+        return $this->belongsTo(Detail_Enjin::class,'detail_enjin_id');
+    }
 }

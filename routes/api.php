@@ -68,6 +68,9 @@ Route::post('createControles', [DashboedController::class,'createControles']);
 Route::post('details_affectation', [DashboedController::class,'details_affectation']);
 
 Route::post('affectation', [DashboedController::class,'affectation']);
+Route::post('sortie', [DashboedController::class,'sortie']);
+Route::post('entrer', [DashboedController::class,'entrer']);
+
 
 Route::post('search_affectation', [DashboedController::class,'search_affectation']);
 

@@ -22,4 +22,10 @@ class Enjin extends Model
     function famille_enjin()  {
         return $this->belongsTo(famille_enjin::class);
     }
+    function entrer()  {
+        return $this->hasOne(Sortie::class,"engin_id");
+    }
+    function sortie()  {
+        return $this->hasOne(Entrer::class,"engin_id");
+    }
 }

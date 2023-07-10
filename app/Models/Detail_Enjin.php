@@ -29,8 +29,8 @@ class Detail_Enjin extends Model
         return $this->belongsTo(User::class);
     }
 
-    function controle()  {
-        return $this->hasMany(controle::class,'detail_enjin_id');
+    function Critaire()  {
+        return $this->hasOne(Critaire::class,'detail_enjin_id');
         
     }
 }

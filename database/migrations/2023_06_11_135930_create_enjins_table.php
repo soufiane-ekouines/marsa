@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('Kilometrage');
             $table->string('Etat');
             $table->string('Commentaire');
-            $table->foreignId('famille_enjin_id')->constrained();;
+            $table->foreignId('famille_enjin_id')->constrained();
             $table->timestamps();
         });
     }
