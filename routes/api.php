@@ -32,6 +32,7 @@ Route::get('test', function () {
 
 Route::middleware('auth:api')->group( function () {
 
+    Route::post('logout', [RegisterController::class, 'logout']);
 
 
 Route::get('dashboard', [DashboedController::class,'dashboard']);
