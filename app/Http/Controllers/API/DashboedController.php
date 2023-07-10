@@ -239,9 +239,9 @@ class DashboedController extends Controller
 
     function details_affectation(Request $request)
     {
-        $detailDemande = detail_demande::with('demande', 'familleEnjin', 'detailEnjin')->where('demande_id', $request->demande_id)->first();
-        $Conducteur = $detailDemande?->detailEnjin?->Conducteur;
-        return response()->json(['detail_demande' => $detailDemande, 'Conducteur' => $Conducteur]);
+        $Detail_Enjin = Detail_Enjin::with('demande.entite', 'enjin.sortie','enjin.entrer', 'Conducteur','Critaire')->where('id', $request->id)->first();
+
+        return response()->json(['details_affectation' => $Detail_Enjin]);
     }
 
 
