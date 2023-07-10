@@ -10,4 +10,8 @@ class Famille_Enjin extends Model
     use HasFactory;
     protected $table = "Famille_Enjins";
     protected $fillable = ['Nom_famille'];
+
+    function critaire()  {
+        return $this->hasOne(Critaire::class,'detail_enjin_id');
+    }
 }

@@ -36,4 +36,5 @@ class Demande extends Model
     {
         return $this->hasOne(Detail_Demande::class,'demande_id');
     }
+
 }
